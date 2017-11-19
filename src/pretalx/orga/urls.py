@@ -27,6 +27,7 @@ orga_urls = [
         url('^cfp/questions/(?P<pk>[0-9]+)/delete$', cfp.CfPQuestionDelete.as_view(), name='cfp.question.delete'),
         url('^cfp/questions/(?P<pk>[0-9]+)/edit$', cfp.CfPQuestionDetail.as_view(), name='cfp.question.edit'),
         url('^cfp/questions/(?P<pk>[0-9]+)/toggle$', cfp.CfPQuestionToggle.as_view(), name='cfp.question.toggle'),
+        url('^cfp/questions/(?P<pk>[0-9]+)/email$', cfp.CfPQuestionEmail.as_view(), name='cfp.question.email'),
         url('^cfp/text$', cfp.CfPTextDetail.as_view(), name='cfp.text.view'),
         url('^cfp/text/edit$', cfp.CfPTextDetail.as_view(), name='cfp.text.edit'),
         url('^cfp/types$', cfp.SubmissionTypeList.as_view(), name='cfp.types.view'),

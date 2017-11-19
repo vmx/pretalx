@@ -1,0 +1,54 @@
+{% extends "orga/cfp/base.html" %}
+{% load bootstrap4 %}
+{% load formset_tags %}
+{% load i18n %}
+{% load staticfiles %}
+{% block cfp_content %}
+
+<h4>
+    »{{ question.question }}«
+    <small>({{ question.get_variant_display }})</small>
+    <a href="{{ question.urls.edit }}" class="btn btn-xs btn-secondary">
+        <i class="fa fa-pencil"></i>
+    </a>
+</h4>
+
+Send email to all speakers who ...
+
+<ul>
+{% if question.variant == "file" %}
+    <li><input type="radio" name="answer"> {% trans "did upload a file" %}</li>
+    <li><input type="radio" name="answer"> {% trans "did not upload a file yet" %}</li>
+{% elif question.variant == 'boolean' %}
+    <li><input type="radio" name="answer"> {% trans "did answer something" %}</li>
+    <li><input type="radio" name="answer"> {% trans "answered »Yes«" %}</li>
+    <li><input type="radio" name="answer"> {% trans "answered »No«" %}</li>
+    <li><input type="radio" name="answer"> {% trans "did not answer yet" %}</li>
+{% elif question.variant == 'choices' or question.variant == 'multiple_choice' %}
+    <li><input type="radio" name="answer"> {% trans "did answer something" %}</li>
+    {% for answer in question.options.all %}
+        {% if answer.answer %}
+        <li>
+            <input type="radio" name="answer">
+            {% blocktrans trimmed with answer=answer.answer %}
+                answered »{{ answer }}«
+            {% endblocktrans %}
+        </li>
+        {% elif answer.options %}
+        <li>
+            <input type="radio" name="answer">
+            {% blocktrans trimmed with answer=answer.options__answer %}
+                answered »{{ answer }}«
+            {% endblocktrans %}
+        </li>
+        {% endif %}
+    {% endfor %}
+    <li><input type="radio" name="answer"> {% trans "did not answer yet" %}</li>
+{% else %}
+    <li><input type="radio" name="answer"> {% trans "did answer something" %}</li>
+    <li><input type="radio" name="answer"> {% trans "did not answer yet" %}</li>
+{% endif %}
+</ul>
+
+<button class="btn btn-primary">send</button>
+{% endblock %}

@@ -109,6 +109,7 @@ class Question(LogMixin, models.Model):
         edit = '{base}/edit'
         delete = '{base}/delete'
         toggle = '{base}/toggle'
+        email = '{base}/email'
 
     def __str__(self):
         return str(self.question)

@@ -176,6 +176,19 @@ class CfPQuestionDetail(PermissionRequired, ActionFromUrl, CreateOrUpdateView):
         return ret
 
 
+class CfPQuestionEmail(PermissionRequired, TemplateView):
+    permission_required = 'orga.view_question'
+    template_name = 'orga/cfp/question_email.html'
+
+    def get_object(self) -> Question:
+        return Question.all_objects.filter(event=self.request.event, pk=self.kwargs.get('pk')).first()
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx['question'] = self.get_object()
+        return ctx
+
+
 class CfPQuestionDelete(PermissionRequired, View):
     permission_required = 'orga.remove_question'
 
