@@ -21,6 +21,7 @@
         <thead>
             <tr>
                 <th>Question</th>
+                <th>Type</th>
                 <th>required</th>
                 <th>active</th>
                 <th></th>
@@ -34,6 +35,7 @@
                             {{ question.question }}
                         </a>
                     </td>
+                    <td>{{ question.get_variant_display }}</td>
                     <td>
                         <span class="fa fa-{% if question.required %}check-circle{% else %}times-circle{% endif %}">
 
@@ -71,6 +73,7 @@
         <thead>
             <tr>
                 <th>Question</th>
+                <th>Type</th>
                 <th>required</th>
                 <th>active</th>
                 <th></th>
@@ -84,6 +87,7 @@
                             {{ question.question }}
                         </a>
                     </td>
+                    <td>{{ question.get_variant_display }}</td>
                     <td>
                         <span class="fa fa-{% if question.required %}check-circle{% else %}times-circle{% endif %}">
 
