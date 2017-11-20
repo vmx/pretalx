@@ -28,6 +28,22 @@ table .btn-secondary {
   }
 }
 
+#questionemails {
+  label {
+    margin: 0;
+  }
+
+  ul {
+    padding-left: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+
 .pending-mails {
   background: $brand_warning;
   border-radius: 20px;

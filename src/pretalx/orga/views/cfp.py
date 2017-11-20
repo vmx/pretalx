@@ -1,3 +1,4 @@
+import django.forms as forms
 from csp.decorators import csp_update
 from django.contrib import messages
 from django.db import transaction
@@ -7,13 +8,17 @@ from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import ListView, TemplateView, UpdateView, View
+from django.views.generic import (
+    FormView, ListView, TemplateView, UpdateView, View,
+)
 
 from pretalx.common.forms import I18nFormSet
 from pretalx.common.mixins.views import ActionFromUrl, PermissionRequired
 from pretalx.common.views import CreateOrUpdateView
 from pretalx.orga.forms import CfPForm, QuestionForm, SubmissionTypeForm
-from pretalx.orga.forms.cfp import AnswerOptionForm, CfPSettingsForm
+from pretalx.orga.forms.cfp import (
+    AnswerOptionForm, CfPQuestionEmailForm, CfPSettingsForm,
+)
 from pretalx.submission.models import (
     AnswerOption, CfP, Question, SubmissionType,
 )
@@ -176,12 +181,18 @@ class CfPQuestionDetail(PermissionRequired, ActionFromUrl, CreateOrUpdateView):
         return ret
 
 
-class CfPQuestionEmail(PermissionRequired, TemplateView):
+class CfPQuestionEmail(PermissionRequired, FormView):
     permission_required = 'orga.view_question'
+    form_class = CfPQuestionEmailForm
     template_name = 'orga/cfp/question_email.html'
 
     def get_object(self) -> Question:
         return Question.all_objects.filter(event=self.request.event, pk=self.kwargs.get('pk')).first()
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['question'] = self.get_object()
+        return kwargs
 
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)

@@ -6,7 +6,7 @@ from i18nfield.forms import I18nFormMixin, I18nModelForm
 from pretalx.common.mixins.forms import ReadOnlyFlag
 from pretalx.common.phrases import phrases
 from pretalx.submission.models import (
-    AnswerOption, CfP, Question, SubmissionType,
+    AnswerOption, CfP, Question, QuestionVariant, SubmissionType,
 )
 
 
@@ -83,3 +83,41 @@ class SubmissionTypeForm(ReadOnlyFlag, I18nModelForm):
         fields = [
             'name', 'default_duration', 'max_duration',
         ]
+
+
+class CfPQuestionEmailForm(forms.Form):
+
+    def add_checkbox(self, name, label, order=True):
+        if order:
+            self.field_order.append(name)
+        self.fields[name] = forms.BooleanField(label=label)
+
+
+    def __init__(self, question, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.field_order = []
+
+        self.add_checkbox('has_answer', 'did answer something')
+        self.add_checkbox('has_no_answer', 'did not answer yet', order=False)
+
+        if question.variant == QuestionVariant.BOOLEAN:
+            self.add_checkbox('answer_True', 'answered »Yes«')
+            self.add_checkbox('answer_False', 'answered »No«')
+        elif question.variant == QuestionVariant.FILE:
+            self.fields['has_answer'].label = "did upload a file"
+            self.fields['has_no_answer'].label = "did not yet upload a file"
+        elif question.variant in (QuestionVariant.CHOICES, QuestionVariant.MULTIPLE):
+            for answer in question.options.all():
+                if answer.answer:
+                    answer_txt = answer.answer
+                elif answer.options:
+                    answer_txt = answer.options__answer
+
+                self.add_checkbox('answer_{}'.format(answer.id), 'answered »{answer}«'.format(answer=answer_txt))
+        else:
+            # TODO: list the TOP-10 freeform answers?
+            pass
+
+        self.field_order.append('has_no_answer')
+        self.order_fields(self.field_order)
