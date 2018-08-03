@@ -37,6 +37,7 @@ class UserForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
         self.fields['register_email'].widget.attrs = {'placeholder': _('Email address')}
 
@@ -49,7 +50,7 @@ class UserForm(forms.Form):
         else:
             uname = data.get('login_username')
 
-        user = authenticate(username=uname, password=data.get('login_password'))
+        user = authenticate(self.request, username=uname, password=data.get('login_password'))
 
         if user is None:
             raise ValidationError(_('No user account matches the entered credentials. '

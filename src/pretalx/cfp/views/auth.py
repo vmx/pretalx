@@ -30,6 +30,11 @@ class LoginView(FormView):
     template_name = 'cfp/event/login.html'
     form_class = UserForm
 
+    def get_form_kwargs(self, *args, **kwargs):
+        result = super().get_form_kwargs(*args, **kwargs)
+        result['request'] = self.request
+        return result
+
     def form_valid(self, form):
         pk = form.save()
         user = User.objects.filter(pk=pk).first()

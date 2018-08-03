@@ -18,7 +18,7 @@ class LoginView(TemplateView):
     def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponseRedirect:
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
         if user is None:
             messages.error(request, _('No user account matches the entered credentials.'))

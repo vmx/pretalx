@@ -194,6 +194,11 @@ class InvitationView(FormView):
         context['invitation'] = self.object
         return context
 
+    def get_form_kwargs(self, *args, **kwargs):
+        result = super().get_form_kwargs(*args, **kwargs)
+        result['request'] = self.request
+        return result
+
     @transaction.atomic()
     def form_valid(self, form):
         form.save()
