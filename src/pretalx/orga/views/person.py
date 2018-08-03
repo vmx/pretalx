@@ -49,6 +49,6 @@ class SubuserView(View):
         messages.success(request, _('You are now an administrator instead of a superuser.'))
         params = request.GET.copy()
         url = urllib.parse.unquote(params.pop('next', [''])[0])
-        if url and is_safe_url(url, request.get_host()):
+        if url and is_safe_url(url, allowed_hosts=[request.get_host()]):
             return redirect(url + ('?' + params.urlencode() if params else ''))
         return redirect(reverse('orga:dashboard'))

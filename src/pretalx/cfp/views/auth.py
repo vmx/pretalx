@@ -40,7 +40,7 @@ class LoginView(FormView):
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         url = self.request.GET.get('next')
-        if url and is_safe_url(url, self.request.get_host()):
+        if url and is_safe_url(url, allowed_hosts=[self.request.get_host()]):
             return redirect(url)
         return redirect(self.request.event.urls.user_submissions)
 
