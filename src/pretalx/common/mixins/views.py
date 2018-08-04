@@ -1,6 +1,7 @@
 import urllib
 from contextlib import suppress
 
+from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import FieldDoesNotExist
 from django.db.models import CharField, Q
 from django.db.models.functions import Lower
@@ -127,3 +128,8 @@ class PermissionRequired(PermissionRequiredMixin):
     def get_login_url(self):
         """We do this to avoid leaking data about existing pages."""
         raise Http404()
+
+    def handle_no_permission(self):
+        if self.raise_exception or self.request.user.is_authenticated:
+            raise Http404(self.get_permission_denied_message())
+        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())

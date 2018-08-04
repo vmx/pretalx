@@ -65,7 +65,7 @@ class EventPermissionMiddleware:
                     request.is_orga = request.user.is_administrator or has_perms
 
         event_slug = url.kwargs.get('event')
-        if event_slug:
+        if event_slug and not getattr(request, 'event', None):
             request.event = get_object_or_404(
                 Event,
                 slug__iexact=event_slug,
