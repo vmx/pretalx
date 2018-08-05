@@ -9,6 +9,9 @@ services:
   - mysql
   - postgresql
 
+addons:
+  postgresql: "9.6"
+
 # We spell out the text matrix tox generates explicitly here to get the most use out of both.
 matrix:
   include:
