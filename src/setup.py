@@ -6,6 +6,22 @@ from setuptools import find_packages, setup
 
 from pretalx import __version__ as pretalx_version
 
+CURRENT_PYTHON = sys.version_info[:2]
+REQUIRED_PYTHON = (3, 6)
+if CURRENT_PYTHON < REQUIRED_PYTHON:
+    sys.stderr.write(
+        """
+==========================
+Unsupported Python version
+==========================
+This version of pretalx requires Python {}.{}, or above, but you're
+trying to install it on Python {}.{}.
+""".format(
+            *(REQUIRED_PYTHON + CURRENT_PYTHON)
+        )
+    )
+    sys.exit(1)
+
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the relevant file
@@ -48,6 +64,7 @@ setup(
     author='Tobias Kunze',
     author_email='rixx@cutebit.de',
     license='Apache License 2.0',
+    keywords='conference cfp event barcamp',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
@@ -56,9 +73,10 @@ setup(
         'Environment :: Web Environment',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Framework :: Django :: 2.1',
     ],
-    keywords='conference cfp event barcamp',
+    python_requires='>={}.{}'.format(*REQUIRED_PYTHON),
     install_requires=[
         'bleach>=2.1.2,==2.1.*',  # https://bleach.readthedocs.io/en/latest/changes.html
         'celery==4.2.*',  # search for "what's new" on http://docs.celeryproject.org/en/latest/
