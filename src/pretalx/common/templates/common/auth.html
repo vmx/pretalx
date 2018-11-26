@@ -1,6 +1,8 @@
 {% load bootstrap4 %}
+{% load cfp %}
 {% load compress %}
 {% load i18n %}
+{% load socialaccount %}
 {% load static %}
 
 {% bootstrap_form_errors form %}
@@ -30,6 +32,16 @@
         <a class="btn btn-block btn-link" href="{{ password_reset_link }}">
             {% trans "Reset password" %}
         </a>
+        {% endif %}
+        {% is_auth_provider_setup "github" as is_github_setup %}
+        {% if is_github_setup %}
+            {# Normal login #}
+            {% if success_url %}
+            <p><a href="{% provider_login_url 'github' %}{% if not request.GET.next %}?next={{ success_url }}{% endif %}">Login with GitHub</a></p>
+            {# Team invitation link #}
+            {% else %}
+            <p><a href="{% provider_login_url 'github' %}{% if not request.GET.next %}?next={{ request.get_full_path }}{% endif %}">Login with GitHub</a></p>
+            {% endif %}
         {% endif %}
     </div>
 {% endif %}

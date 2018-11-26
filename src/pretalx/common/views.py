@@ -60,6 +60,10 @@ class GenericLoginView(FormView):
     def password_reset_link(self):
         return self.get_password_reset_link()
 
+    @context
+    def success_url(self):
+        return self.get_success_url()
+
     def form_valid(self, form):
         pk = form.save()
         user = User.objects.filter(pk=pk).first()
