@@ -52,11 +52,17 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 ]
 EXTERNAL_APPS = [
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
     'bakery',
     'compressor',
     'djangoformsetjs',
+    'fullurl',
     'jquery',
     'rest_framework',
     'rest_framework.authtoken',
@@ -313,6 +319,7 @@ LOGIN_URL = '/orga/login'
 AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
     'pretalx.common.auth.AuthenticationTokenBackend',
 )
 AUTH_PASSWORD_VALIDATORS = [
@@ -468,3 +475,20 @@ log_initial(
     LOG_DIR=LOG_DIR,
     plugins=PLUGINS,
 )
+
+## django-allauth SETTINGS
+SITE_ID = 1
+# Having an email address is enoough
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+# The username is populated by the PersonAdapter
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+SOCIALACCOUNT_ADAPTER = 'pretalx.person.adapters.PersonAdapter'
+# Don't store unnecessary things. Less personal date is better.
+SOCIALACCOUNT_STORE_TOKENS = False
+# Don't ask for email confirmation, if it's a social account it was already
+# confirmed by the provider
+SOCIALACCOUNT_EMAIL_VERIFICATION="none"
+# Redirect to the root page after a successful login via a social account
+LOGIN_REDIRECT_URL="/"

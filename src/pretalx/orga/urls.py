@@ -122,6 +122,7 @@ urlpatterns = [
 
         url('^settings/$', event.EventDetail.as_view(), name='settings.event.view'),
         url('^settings/mail$', event.EventMailSettings.as_view(), name='settings.mail.view'),
+        url('^settings/login', event.EventLoginSettings.as_view(), name='settings.login.view'),
         url('^settings/plugins$', plugins.EventPluginsView.as_view(), name='settings.plugins.select'),
 
         url('^settings/review/$', event.EventReviewSettings.as_view(), name='settings.review'),
