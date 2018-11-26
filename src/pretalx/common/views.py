@@ -58,6 +58,7 @@ class GenericLoginView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['password_reset_link'] = self.get_password_reset_link()
+        context['success_url'] = self.get_success_url()
         return context
 
     def form_valid(self, form):
