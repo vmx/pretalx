@@ -474,3 +474,6 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 SOCIALACCOUNT_ADAPTER = 'pretalx.person.adapters.PersonAdapter'
 # Don't store unnecessary things. Less personal date is better.
 SOCIALACCOUNT_STORE_TOKENS = False
+# Don't ask for email confirmation, if it's a social account it was already
+# confirmed by the provider
+SOCIALACCOUNT_EMAIL_VERIFICATION="none"
