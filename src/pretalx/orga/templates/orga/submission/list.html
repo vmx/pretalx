@@ -64,7 +64,7 @@
                     <a href="?{% url_replace request 'sort' '-title' %}"><i class="fa fa-caret-down"></i></a>
                     <a href="?{% url_replace request 'sort' 'title' %}"><i class="fa fa-caret-up"></i></a>
                 </th>
-                <th>{% trans "Speakers" %}</th>
+                {#<th>{% trans "Speakers" %}</th>#}
                 <th>
                     {% trans "Type" %}
                 </th>
@@ -89,6 +89,7 @@
                             {{ submission.title }}
                         </a>
                     </td>
+                    {% comment %} NOTE vmx 2019-03-09: Just hide speakers in the template for now
                     <td>
                         {% for speaker in submission.speakers.all %}
                             <a href="{% url "orga:speakers.view" event=request.event.slug pk=speaker.id %}">
@@ -96,6 +97,7 @@
                             </a><br>
                         {% endfor %}
                     </td>
+                    {% endcomment %}
                     <td>
                         {{ submission.submission_type.name }}
                     </td>

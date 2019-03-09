@@ -91,7 +91,7 @@
             <th>{% trans "Score" %} <i class="fa fa-caret-down"></i></th>
             <th>{% trans "Reviews" %}</th>
             <th>{% trans "Title" %}</th>
-            <th>{% trans "Speakers" %}</th>
+            {# <th>{% trans "Speakers" %}</th> #}
             <th>{% trans "Type" %}</th>
             <th>{% trans "State" %}</th>
             <th></th>
@@ -124,7 +124,7 @@
                     {{ submission.title }}
                 </a>
             </td>
-            <td>{{ submission.display_speaker_names }}</td>
+            {# <td>{{ submission.display_speaker_names }}</td> #}
             <td>{{ submission.submission_type.name }}</td>
             <td>
                 {% include "cfp/event/fragment_state.html" with state=submission.state %}

@@ -9,9 +9,11 @@
     <h2>
         <span>
             »{{ submission.title }}«
+            {% comment %} NOTE vmx 2019-03-09: Just hide speakers in the template for now
             {% if submission.speakers.exists %}
                 by {{ submission.display_speaker_names }}
             {% endif %}
+            {% endcomment %}
             {% include "orga/submission/state_dropdown.html" with submission=submission %}
         </span>
     </h2>
@@ -24,6 +26,7 @@
             {% trans "Content" %}
         </a>
       </li>
+      {% comment %} NOTE vmx 2019-03-09: Just hide speakers in the template for now
       <li class="nav-item">
           <a
             class="nav-link {% if "submissions.speakers" in url_name %}active{% endif %}"
@@ -32,6 +35,7 @@
             {% trans "Speakers" %}
           </a>
       </li>
+      {% endcomment %}
       {% if submission.feedback.count %}
           <li class="nav-item">
               <a

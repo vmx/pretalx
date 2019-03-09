@@ -58,6 +58,7 @@
             {{ submission.notes|rich_text|default:'-' }}
         </div>
     </div>
+    {% comment %} NOTE vmx 2019-03-09: Just hide speakers in the template for now
     {% for speaker in profiles %}
     <div class="form-group row">
         <label class="col-md-3 col-form-label" for="id_text">{% trans "Speaker" %}: {{ speaker.user.get_display_name }}</label>
@@ -71,6 +72,7 @@
         </div>
     </div>
     {% endfor %}
+    {% endcomment %}
 
     {% if not form.instance.pk and not read_only %}
         {% bootstrap_field form.score layout='event' %}
@@ -113,6 +115,8 @@
                 </td>
             </tr>
             {% endif %}
+            {% comment %} NOTE vmx 2019-03-09: Just hide it in the template for now,
+                          a proper fix will be done for the general track review
             {% for review in reviews %}
                 {% if review != form.instance %}
                     <tr>
@@ -127,6 +131,7 @@
                     </tr>
                 {% endif %}
             {% endfor %}
+            {% endcomment %}
         </tbody>
     </table>
     {% endif %}
