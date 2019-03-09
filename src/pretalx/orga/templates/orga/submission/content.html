@@ -80,6 +80,8 @@
                     });
                     });</script>
         {% endif %}
+        {% comment %} NOTE vmx 2019-03-09: Don't display the score for now, you can
+        view it on the reviews page
         {% if form.instance.average_score != None %}
         <div class="form-group row">
             <label class="col-md-3 col-form-label">
@@ -93,6 +95,7 @@
             </div>
         </div>
         {% endif %}
+        {% endcomment %}
         {% bootstrap_field form.submission_type layout='event' %}
         {% if form.abstract %}{% bootstrap_field form.abstract layout='event' %}{% endif %}
         {% if form.description %}{% bootstrap_field form.description layout='event' %}{% endif %}

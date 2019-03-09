@@ -42,6 +42,10 @@ class ReviewDashboard(PermissionRequired, Filterable, ListView):
         overridden_reviews = Review.objects.filter(
             override_vote__isnull=False, submission_id=models.OuterRef('pk')
         )
+        review_scores = Review.objects.filter(
+                submission_id=models.OuterRef('pk'),
+                user_id=self.request.user.pk
+        )
         queryset = self.request.event.submissions.filter(
             state__in=[
                 SubmissionStates.SUBMITTED,
@@ -54,15 +58,7 @@ class ReviewDashboard(PermissionRequired, Filterable, ListView):
         return (
             queryset.order_by('review_id')
             .annotate(has_override=models.Exists(overridden_reviews))
-            .annotate(
-                avg_score=models.Case(
-                    models.When(
-                        has_override=True,
-                        then=self.request.event.settings.review_max_score + 1,
-                    ),
-                    default=models.Avg('reviews__score'),
-                )
-            )
+            .annotate(avg_score=models.Subquery(review_scores.values('score')))
             .order_by('-state', '-avg_score', 'code')
         )
 
