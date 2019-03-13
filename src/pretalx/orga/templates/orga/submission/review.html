@@ -52,12 +52,14 @@
             {{ submission.description|rich_text|default:'-' }}
         </div>
     </div>
+    {% comment %} NOTE vmx 2019-03-09: Just hide notes to organizer in the template for now
     <div class="form-group row">
         <label class="col-md-3 col-form-label" for="id_text">{% trans "Notes for the organiser" %}</label>
         <div class="col-md-9 mt-1">
             {{ submission.notes|rich_text|default:'-' }}
         </div>
     </div>
+    {% endcomment %}
     {% comment %} NOTE vmx 2019-03-09: Just hide speakers in the template for now
     {% for speaker in profiles %}
     <div class="form-group row">
